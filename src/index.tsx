@@ -2,6 +2,10 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import Snake from "./Snake";
 import Grid from "react-fast-grid";
+//@ts-ignore
+import GitHubButton from "react-github-button";
+
+require("react-github-button/assets/style.css");
 
 const rootElement = document.getElementById("root");
 
@@ -147,7 +151,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
               color: "#fff",
             }}
           >
-            <Grid item xs>
+            <Grid item xs={6}>
               <div className="h1">COVID-19</div>
               Swipe or use the arrow keys to capture the bug!
             </Grid>
@@ -297,12 +301,27 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
             color: "#fff",
           }}
         >
-          <div>
-            Stay safe and get updates for 🦠at{" "}
-            <a href="https://coronavirus.1point3acres.com/" target="_blank">
-              COVID19 US & Canada; Code
-            </a>
-          </div>
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            justify="space-between"
+          >
+            <Grid item>
+              Stay safe and get updates for 🦠at{" "}
+              <a href="https://coronavirus.1point3acres.com/" target="_blank">
+                COVID19 US & Canada;
+              </a>
+            </Grid>
+            <Grid item>
+              <GitHubButton
+                type="stargazers"
+                size="small"
+                namespace="mathew-kurian"
+                repo="Snake"
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     );
