@@ -9,7 +9,7 @@ require("react-github-button/assets/style.css");
 
 const rootElement = document.getElementById("root");
 
-const MAX_HIGH_SCORES = 3;
+const MAX_HIGH_SCORES = 6;
 
 interface Score {
   name: string;
