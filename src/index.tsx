@@ -241,8 +241,8 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                   <Grid container alignItems="stretch" justify="flex-end">
                     <Grid className="submit" item alignItems="center" xs={6}>
                       <input
+                        autoComplete="name"
                         placeholder="Enter your name"
-                        defaultValue="Anonymous"
                         ref={this._name}
                       />
                     </Grid>
@@ -267,19 +267,23 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <button
-                            onClick={() =>
+                            onClick={() => {
                               this.addScore({
                                 score,
                                 name: this._name.current?.value || "Anonymous",
-                              })
-                            }
+                              });
+
+                              this.setState({ score: 0 });
+                            }}
                           >
                             Submit
                           </button>
                         </Grid>
                         <Grid item xs={6}>
                           <button
-                            onClick={() => this.setState({ dialogType: null })}
+                            onClick={() =>
+                              this.setState({ dialogType: null, score: 0 })
+                            }
                           >
                             Restart
                           </button>
@@ -291,7 +295,9 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                   <Grid container alignItems="stretch">
                     <Grid className="submit" item xs={12}>
                       <button
-                        onClick={() => this.setState({ dialogType: null })}
+                        onClick={() =>
+                          this.setState({ dialogType: null, score: 0 })
+                        }
                       >
                         Restart
                       </button>

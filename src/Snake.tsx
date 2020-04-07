@@ -225,8 +225,7 @@ export default class Snake extends React.Component<
       );
     }
 
-    const WrapComponent =
-      process.env.NODE_ENV === "production" ? FocusLock : "div";
+    const WrapComponent = FocusLock;
 
     return (
       <Swipeable
