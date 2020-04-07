@@ -32,7 +32,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
     size: 0,
     score: 0,
     scores: [],
-    dialogType: "score",
+    dialogType: null,
   };
 
   private _getContainerSize(): { width: number; height: number } {
