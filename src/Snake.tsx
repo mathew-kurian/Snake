@@ -187,7 +187,7 @@ export default class Snake extends React.Component<
   };
 
   render() {
-    const { points, food } = this.state;
+    const { points, food, direction } = this.state;
     const { rows, size = 12, columns } = this.props;
     const elementRows: React.ReactElement[] = [];
 
@@ -218,10 +218,22 @@ export default class Snake extends React.Component<
     return (
       <Swipeable
         style={{ textAlign: "center" }}
-        onSwipedLeft={() => this.setState({ direction: directions[37] })}
-        onSwipedRight={() => this.setState({ direction: directions[39] })}
-        onSwipedUp={() => this.setState({ direction: directions[38] })}
-        onSwipedDown={() => this.setState({ direction: directions[40] })}
+        onSwipedLeft={() =>
+          ![directions[39]].includes(directions[37]) &&
+          this.setState({ direction: directions[37] })
+        }
+        onSwipedRight={() =>
+          ![directions[37]].includes(directions[39]) &&
+          this.setState({ direction: directions[39] })
+        }
+        onSwipedUp={() =>
+          ![directions[40]].includes(directions[38]) &&
+          this.setState({ direction: directions[38] })
+        }
+        onSwipedDown={() =>
+          ![directions[38]].includes(directions[40]) &&
+          this.setState({ direction: directions[40] })
+        }
       >
         <WrapComponent>
           <div
@@ -232,7 +244,17 @@ export default class Snake extends React.Component<
                 const direction = (directions[
                   keyCodeStr
                 ] as unknown) as number[];
-                this.setState({ direction });
+
+                if (
+                  ![
+                    // @ts-ignore
+                    directions[keyCodeStr - 2],
+                    // @ts-ignore
+                    directions[keyCodeStr + 2],
+                  ].includes(direction)
+                ) {
+                  this.setState({ direction });
+                }
               }
             }}
             style={{
