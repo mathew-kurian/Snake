@@ -1,2 +1,0 @@
-# Snake
-Created with CodeSandbox

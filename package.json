@@ -1,0 +1,33 @@
+{
+  "name": "snake",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.tsx",
+  "dependencies": {
+    "react": "0.0.0-experimental-d7382b6c4",
+    "react-dom": "0.0.0-experimental-d7382b6c4",
+    "react-fast-grid": "2.0.2",
+    "react-focus-lock": "2.2.1",
+    "react-jss": "10.1.1",
+    "react-scripts": "3.3.0",
+    "react-swipeable": "5.5.1"
+  },
+  "devDependencies": {
+    "@types/react": "16.9.19",
+    "@types/react-dom": "16.9.5",
+    "typescript": "3.7.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
