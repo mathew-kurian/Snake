@@ -316,7 +316,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
             alignItems="center"
             justify="space-between"
           >
-            <Grid item>
+            <Grid item xs>
               Stay safe and get updates for 🦠at{" "}
               <a href="https://coronavirus.1point3acres.com/" target="_blank">
                 COVID19 US & Canada;
