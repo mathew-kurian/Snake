@@ -197,12 +197,12 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                 rows={rows}
                 columns={columns}
                 startLength={3}
-                foodSize={3}
+                foodSize={5}
                 onFinish={() => {
                   this.setState({ dialogType: "score" });
                 }}
                 onLengthChange={(length) =>
-                  this.setState({ score: (length - 3) / 3 })
+                  this.setState({ score: (length - 3) / 5 })
                 }
               />
             )}
