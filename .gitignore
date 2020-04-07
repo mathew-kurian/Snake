@@ -2,3 +2,4 @@ node_modules
 .vscode/
 react-app-env.d.ts
 build/
+.DS_Store
