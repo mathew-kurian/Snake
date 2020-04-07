@@ -1,5 +1,10 @@
 /* @import "https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"; */
 
+:root {
+  touch-action: pan-x pan-y;
+  height: 100%;
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;

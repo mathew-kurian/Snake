@@ -20,7 +20,6 @@ interface State {
   points: Point[];
   direction: number[];
   food: Point;
-  mounted: boolean;
 }
 
 const directions = {
@@ -66,9 +65,8 @@ export default class Snake extends React.Component<
 > {
   state: State = {
     points: [],
-    direction: [1, 0],
+    direction: directions[39],
     food: { x: 0, y: 0 },
-    mounted: true,
   };
 
   componentDidMount() {
@@ -89,10 +87,9 @@ export default class Snake extends React.Component<
   }
 
   private lastAnimate: number = 0;
+  private _finished: boolean = false;
   private animate_ = () => {
-    const { mounted } = this.state;
-
-    if (mounted === false) {
+    if (this._finished === true) {
       return;
     }
 
@@ -110,7 +107,7 @@ export default class Snake extends React.Component<
   };
 
   componentWillUnmount() {
-    this.setState({ mounted: false });
+    this._finished = true;
   }
 
   private giveFood_(): Point {
@@ -179,12 +176,28 @@ export default class Snake extends React.Component<
       const point = newPoints[i];
 
       if (head.x === point.x && head.y === point.y) {
+        this._finished = true;
         onFinish();
       }
     }
 
     this.setState({ points: newPoints, food: newFood });
   };
+
+  private setDirection(directionNum: number) {
+    const currDirection = this.state.direction;
+    // @ts-ignore
+    const nextDirection = directions[directionNum];
+
+    if (
+      currDirection[0] + nextDirection[0] === 0 &&
+      +currDirection[1] + nextDirection[1] === 0
+    ) {
+      return;
+    }
+
+    this.setState({ direction: nextDirection });
+  }
 
   render() {
     const { points, food, direction } = this.state;
@@ -218,43 +231,16 @@ export default class Snake extends React.Component<
     return (
       <Swipeable
         style={{ textAlign: "center" }}
-        onSwipedLeft={() =>
-          ![directions[39]].includes(directions[37]) &&
-          this.setState({ direction: directions[37] })
-        }
-        onSwipedRight={() =>
-          ![directions[37]].includes(directions[39]) &&
-          this.setState({ direction: directions[39] })
-        }
-        onSwipedUp={() =>
-          ![directions[40]].includes(directions[38]) &&
-          this.setState({ direction: directions[38] })
-        }
-        onSwipedDown={() =>
-          ![directions[38]].includes(directions[40]) &&
-          this.setState({ direction: directions[40] })
-        }
+        onSwipedLeft={() => this.setDirection(37)}
+        onSwipedRight={() => this.setDirection(39)}
+        onSwipedUp={() => this.setDirection(38)}
+        onSwipedDown={() => this.setDirection(40)}
       >
         <WrapComponent>
           <div
             onKeyDown={({ keyCode }: React.KeyboardEvent) => {
               if (37 <= keyCode && keyCode <= 40) {
-                const keyCodeStr = String(keyCode);
-                // @ts-ignore
-                const direction = (directions[
-                  keyCodeStr
-                ] as unknown) as number[];
-
-                if (
-                  ![
-                    // @ts-ignore
-                    directions[keyCodeStr - 2],
-                    // @ts-ignore
-                    directions[keyCodeStr + 2],
-                  ].includes(direction)
-                ) {
-                  this.setState({ direction });
-                }
+                this.setDirection(keyCode);
               }
             }}
             style={{
