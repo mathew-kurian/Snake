@@ -20,6 +20,7 @@ interface State {
   points: Point[];
   direction: number[];
   food: Point;
+  mounted: boolean;
 }
 
 const directions = {
@@ -67,6 +68,7 @@ export default class Snake extends React.Component<
     points: [],
     direction: [1, 0],
     food: { x: 0, y: 0 },
+    mounted: true,
   };
 
   componentDidMount() {
@@ -88,6 +90,12 @@ export default class Snake extends React.Component<
 
   private lastAnimate: number = 0;
   private animate_ = () => {
+    const { mounted } = this.state;
+
+    if (mounted === false) {
+      return;
+    }
+
     const now = Date.now();
     const last = this.lastAnimate;
 
@@ -100,6 +108,10 @@ export default class Snake extends React.Component<
 
     requestAnimationFrame(this.animate_);
   };
+
+  componentWillUnmount() {
+    this.setState({ mounted: false });
+  }
 
   private giveFood_(): Point {
     let pos = this.getRandomPos_();

@@ -235,8 +235,9 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                     </Grid>
                   </Grid>
                 ))}
-                {scores.length < MAX_HIGH_SCORES ||
-                scores.filter((s) => s.score < score).length > 0 ? (
+                {score > 0 &&
+                (scores.length < MAX_HIGH_SCORES ||
+                  scores.filter((s) => s.score < score).length > 0) ? (
                   <Grid container alignItems="stretch" justify="flex-end">
                     <Grid className="submit" item alignItems="center" xs={6}>
                       <input
