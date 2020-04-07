@@ -5,6 +5,8 @@ import Grid from "react-fast-grid";
 
 const rootElement = document.getElementById("root");
 
+const MAX_HIGH_SCORES = 3;
+
 interface Score {
   name: string;
   score: number;
@@ -16,6 +18,7 @@ interface BoostrapState {
   size: number;
   score: number;
   scores: Score[];
+  dialogType: "score" | null;
 }
 
 class Bootstrap extends React.Component<{}, BoostrapState> {
@@ -24,7 +27,8 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
     height: 0,
     size: 0,
     score: 0,
-    scores: []
+    scores: [],
+    dialogType: "score",
   };
 
   private _getContainerSize(): { width: number; height: number } {
@@ -52,7 +56,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
       width = rect.width;
     }
 
-    return width;
+    return width * 2;
   }
 
   private _setSize = () => {
@@ -65,7 +69,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
     this.setState({
       size: this._getCheckboxSize(),
       ...this._getContainerSize(),
-      scores: this.getScores()
+      scores: this.getScores(),
     });
   }
 
@@ -83,7 +87,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
 
       if (Array.isArray(scores)) {
         return scores.filter(
-          score => score.score > 0 && typeof score.name === "string"
+          (score) => score.score > -1 && typeof score.name === "string"
         );
       }
     } catch (e) {
@@ -102,7 +106,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
     const searchParams = new URLSearchParams();
     searchParams.set(
       "s",
-      encodeURIComponent(JSON.stringify(scores.slice(0, 3)))
+      encodeURIComponent(JSON.stringify(scores.slice(0, MAX_HIGH_SCORES)))
     );
 
     const url = new URL(window.location.href);
@@ -115,9 +119,10 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
 
   private _container: React.RefObject<HTMLDivElement> = React.createRef();
   private _checkbox: React.RefObject<HTMLInputElement> = React.createRef();
+  private _name: React.RefObject<HTMLInputElement> = React.createRef();
 
   render() {
-    const { size, width, height, score } = this.state;
+    const { size, width, height, score, dialogType, scores } = this.state;
     const rows = Math.floor((height - size) / size) || 1;
     const columns = Math.floor((width - size) / size) || 1;
 
@@ -125,7 +130,11 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
       <Grid
         container
         direction="column"
-        style={{ height: window.innerHeight, width: window.innerWidth }}
+        style={{
+          height: window.innerHeight,
+          width: window.innerWidth,
+          backgroundColor: dialogType ? "orange" : "white",
+        }}
       >
         <Grid item>
           <Grid
@@ -133,39 +142,30 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
             justify="space-between"
             alignItems="center"
             style={{
-              padding: 5,
-              paddingRight: 10,
+              padding: 15,
               background: "orange",
               color: "#fff",
-              marginBottom: 10
             }}
           >
-            <Grid item>
-              <div
-                style={{ fontSize: "2em", fontFamily: "Orbitron, san-serif" }}
-              >
-                COVID-19
-              </div>
+            <Grid item xs>
+              <div className="h1">COVID-19</div>
               Swipe or use the arrow keys to capture the bug!
             </Grid>
-            <Grid item>
-              <div
-                style={{
-                  fontSize: "0.9em",
-                  fontFamily: "Orbitron, san-serif"
-                }}
-              >
-                SCORE
-              </div>
-              <div
-                style={{
-                  fontSize: "1.3em",
-                  fontFamily: "Orbitron, san-serif",
-                  fontWeight: "bold"
-                }}
-              >
-                {score}
-              </div>
+            <Grid item xs={6} justify="space-between" alignItems="center">
+              <Grid container>
+                <Grid item xs>
+                  <div className="h3">SCORE</div>
+                  <div className="h1">{score}</div>
+                </Grid>
+                <Grid item xs={4}>
+                  <button
+                    className="button"
+                    onClick={() => this.setState({ dialogType: "score" })}
+                  >
+                    Scores
+                  </button>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -178,17 +178,113 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                 </Grid>
               ))}
             {size === 0 && <input ref={this._checkbox} type="checkbox" />}
-            {size !== 0 && width > 0 && height > 0 && (
+            {size !== 0 && width > 0 && height > 0 && dialogType === null && (
               <Snake
                 size={size}
                 rows={rows}
                 columns={columns}
                 startLength={3}
                 onFinish={() => {
-                  throw Error("Finished");
+                  this.setState({ dialogType: "score" });
                 }}
-                onLengthChange={length => this.setState({ score: length - 3 })}
+                onLengthChange={(length) =>
+                  this.setState({ score: length - 3 })
+                }
               />
+            )}
+            {size !== 0 && width > 0 && height > 0 && dialogType !== null && (
+              <Grid
+                container
+                className="scores"
+                alignItems="center"
+                justify="flex-end"
+              >
+                <Grid item xs={12}></Grid>
+                {scores.map((score, index) => (
+                  <Grid container key={index} alignItems="stretch">
+                    <Grid
+                      className="name"
+                      item
+                      alignItems="center"
+                      md={6}
+                      xs={10}
+                    >
+                      {score.name}
+                    </Grid>
+                    <Grid
+                      className="score"
+                      alignItems="center"
+                      justify="center"
+                      item
+                      md={6}
+                      xs={2}
+                    >
+                      {score.score}
+                    </Grid>
+                  </Grid>
+                ))}
+                {scores.length < MAX_HIGH_SCORES ||
+                scores.filter((s) => s.score < score).length > 0 ? (
+                  <Grid container alignItems="stretch" justify="flex-end">
+                    <Grid className="submit" item alignItems="center" xs={6}>
+                      <input
+                        placeholder="Enter your name"
+                        defaultValue="Anonymous"
+                        ref={this._name}
+                      />
+                    </Grid>
+                    <Grid
+                      className="score"
+                      alignItems="center"
+                      justify="center"
+                      item
+                      xs={2}
+                    >
+                      {score}
+                    </Grid>
+                    <Grid
+                      className="submit"
+                      justify="center"
+                      alignItems="center"
+                      item
+                      md={3}
+                      xs={4}
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <button
+                            onClick={() =>
+                              this.addScore({
+                                score,
+                                name: this._name.current?.value || "Anonymous",
+                              })
+                            }
+                          >
+                            Submit
+                          </button>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <button
+                            onClick={() => this.setState({ dialogType: null })}
+                          >
+                            Restart
+                          </button>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ) : (
+                  <Grid container alignItems="stretch">
+                    <Grid className="submit" item xs={12}>
+                      <button
+                        onClick={() => this.setState({ dialogType: null })}
+                      >
+                        Restart
+                      </button>
+                    </Grid>
+                  </Grid>
+                )}
+              </Grid>
             )}
           </div>
         </Grid>
@@ -198,7 +294,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
           style={{
             padding: 5,
             background: "darkorange",
-            color: "#fff"
+            color: "#fff",
           }}
         >
           <div>

@@ -30,3 +30,96 @@ body {
   overflow: hidden;
   font-family: Roboto, Arial, sans-serif;
 }
+
+.h1 {
+  font-family: Orbitron, Arial, sans-serif;
+  font-size: 2em;
+}
+
+.h2 {
+  font-family: Orbitron, Arial, sans-serif;
+  font-size: 1.3em;
+}
+
+.h3 {
+  font-family: Orbitron, Arial, sans-serif;
+  font-size: 0.7em;
+}
+
+.button {
+  font-family: Orbitron, Arial, sans-serif;
+  font-size: 2em;
+  background: white;
+  color: orange;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  padding: 10px 20px;
+}
+
+.scores > div {
+  border-bottom: 2px solid orange;
+}
+
+.scores .name {
+  font-family: Orbitron, Arial, sans-serif;
+  font-size: 2em;
+  padding: 10px;
+  background: darkorange;
+  color: #fff;
+}
+
+.scores .submit {
+  font-family: Orbitron, Arial, sans-serif;
+  font-size: 1.2em;
+  padding: 10px;
+  background: darkorange;
+  color: #fff;
+}
+
+.scores .submit input {
+  background: orange;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.2em;
+  margin: 0;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  font-family: Orbitron, Arial, sans-serif;
+}
+
+.scores .score {
+  font-family: Orbitron, Arial, sans-serif;
+  font-size: 2em;
+  margin: 0;
+  padding: 20px;
+  background: darkorange;
+  color: #fff;
+}
+
+.scores .submit {
+  padding: 10px;
+  background-color: darkorange;
+}
+
+.scores .submit button {
+  font-family: Orbitron, Arial, sans-serif;
+  font-size: 2em;
+  background: white;
+  color: orange;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+}
+
+a:visited {
+  color: white;
+  text-decoration: dashed;
+}
+
+a:hover {
+  color: white;
+}

@@ -26,7 +26,7 @@ const directions = {
   "38": [0, -1],
   "40": [0, 1],
   "37": [-1, 0],
-  "39": [1, 0]
+  "39": [1, 0],
 };
 
 interface CheckboxProps {
@@ -66,7 +66,7 @@ export default class Snake extends React.Component<
   state: State = {
     points: [],
     direction: [1, 0],
-    food: { x: 0, y: 0 }
+    food: { x: 0, y: 0 },
   };
 
   componentDidMount() {
@@ -80,7 +80,7 @@ export default class Snake extends React.Component<
     this.setState(
       {
         points,
-        food: this.getRandomPos_()
+        food: this.getRandomPos_(),
       },
       this.animate_
     );
@@ -118,7 +118,7 @@ export default class Snake extends React.Component<
     const { points } = this.state;
     const some = points
       .slice(1)
-      .some(point => point.x === newHead.x && point.y === newHead.y);
+      .some((point) => point.x === newHead.x && point.y === newHead.y);
     if (some) {
       console.log("game over");
     }
@@ -133,7 +133,7 @@ export default class Snake extends React.Component<
 
     const newHead: Point = {
       x: oldHead.x + direction[0],
-      y: oldHead.y + direction[1]
+      y: oldHead.y + direction[1],
     };
 
     let newFood = food;
@@ -144,12 +144,13 @@ export default class Snake extends React.Component<
       for (let i = 1; i < 10; i++) {
         newPoints.push({
           x: newPoints[i - 1].x + direction[0],
-          y: newPoints[i - 1].y + direction[1]
+          y: newPoints[i - 1].y + direction[1],
         });
       }
 
-      newPoints = [...newPoints, ...points];
+      newPoints = [...newPoints.reverse(), ...points];
       newFood = this.getRandomPos_();
+
       onLengthChange(newPoints.length);
     } else {
       newPoints = [...newPoints, ...points.slice(0, points.length - 1)];
@@ -166,7 +167,6 @@ export default class Snake extends React.Component<
       const point = newPoints[i];
 
       if (head.x === point.x && head.y === point.y) {
-        console.log(head, point, newPoints, points);
         onFinish();
       }
     }
@@ -183,7 +183,7 @@ export default class Snake extends React.Component<
       const elementRow: React.ReactElement[] = [];
 
       for (let x = 0; x < columns; x++) {
-        const point = points.filter(point => point.x === x && point.y === y);
+        const point = points.filter((point) => point.x === x && point.y === y);
 
         elementRow.push(
           <Checkbox
@@ -200,6 +200,9 @@ export default class Snake extends React.Component<
       );
     }
 
+    const WrapComponent =
+      process.env.NODE_ENV === "production" ? FocusLock : "div";
+
     return (
       <Swipeable
         style={{ textAlign: "center" }}
@@ -208,25 +211,27 @@ export default class Snake extends React.Component<
         onSwipedUp={() => this.setState({ direction: directions[38] })}
         onSwipedDown={() => this.setState({ direction: directions[40] })}
       >
-        {/* <FocusLock> */}
-        <div
-          onKeyDown={({ keyCode }: React.KeyboardEvent) => {
-            if (37 <= keyCode && keyCode <= 40) {
-              const keyCodeStr = String(keyCode);
-              // @ts-ignore
-              const direction = (directions[keyCodeStr] as unknown) as number[];
-              this.setState({ direction });
-            }
-          }}
-          style={{
-            width: size * columns,
-            height: size * rows,
-            margin: "0 auto"
-          }}
-        >
-          {elementRows}
-        </div>
-        {/* </FocusLock> */}
+        <WrapComponent>
+          <div
+            onKeyDown={({ keyCode }: React.KeyboardEvent) => {
+              if (37 <= keyCode && keyCode <= 40) {
+                const keyCodeStr = String(keyCode);
+                // @ts-ignore
+                const direction = (directions[
+                  keyCodeStr
+                ] as unknown) as number[];
+                this.setState({ direction });
+              }
+            }}
+            style={{
+              width: size * columns,
+              height: size * rows,
+              margin: "0 auto",
+            }}
+          >
+            {elementRows}
+          </div>
+        </WrapComponent>
       </Swipeable>
     );
   }
