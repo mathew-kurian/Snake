@@ -164,7 +164,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
               alignItems="center"
             >
               <Grid container spacing={2}>
-                <Grid item xs={4} justify="flex-end">
+                <Grid item xs={6} justify="flex-end">
                   <button
                     className="button"
                     onClick={() => this.setState({ dialogType: "score" })}
