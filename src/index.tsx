@@ -145,29 +145,38 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
             container
             justify="space-between"
             alignItems="center"
+            spacing={2}
             style={{
               padding: 15,
               background: "orange",
               color: "#fff",
             }}
           >
-            <Grid item xs={6}>
+            <Grid item sm={6} xs={12}>
               <div className="h1">COVID-19</div>
               Swipe or use the arrow keys to capture the bug!
             </Grid>
-            <Grid item xs={6} justify="space-between" alignItems="center">
-              <Grid container>
-                <Grid item xs>
-                  <div className="h3">SCORE</div>
-                  <div className="h1">{score}</div>
-                </Grid>
-                <Grid item xs={4}>
+            <Grid
+              item
+              md={6}
+              xs={12}
+              justify="space-between"
+              alignItems="center"
+            >
+              <Grid container spacing={2}>
+                <Grid item xs={4} justify="flex-end">
                   <button
                     className="button"
                     onClick={() => this.setState({ dialogType: "score" })}
                   >
                     Scores
                   </button>
+                </Grid>
+                <Grid item xs justify="flex-end" alignItems="center">
+                  <div>
+                    <div className="h3">SCORE</div>
+                    <div className="h1">{score}</div>
+                  </div>
                 </Grid>
               </Grid>
             </Grid>
@@ -203,7 +212,6 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                 alignItems="center"
                 justify="flex-end"
               >
-                <Grid item xs={12}></Grid>
                 {scores.map((score, index) => (
                   <Grid container key={index} alignItems="stretch">
                     <Grid
@@ -242,7 +250,8 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                       alignItems="center"
                       justify="center"
                       item
-                      xs={2}
+                      xl={3}
+                      xs={6}
                     >
                       {score}
                     </Grid>
@@ -251,8 +260,8 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                       justify="center"
                       alignItems="center"
                       item
-                      md={3}
-                      xs={4}
+                      xl={3}
+                      xs={12}
                     >
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
