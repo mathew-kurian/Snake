@@ -56,7 +56,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
       width = rect.width;
     }
 
-    return width * 2;
+    return width;
   }
 
   private _setSize = () => {
@@ -300,7 +300,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
           <div>
             Stay safe and get updates for 🦠at{" "}
             <a href="https://coronavirus.1point3acres.com/" target="_blank">
-              COVID19 US & Canada
+              COVID19 US & Canada; Code
             </a>
           </div>
         </Grid>
