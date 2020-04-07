@@ -197,11 +197,12 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                 rows={rows}
                 columns={columns}
                 startLength={3}
+                foodSize={3}
                 onFinish={() => {
                   this.setState({ dialogType: "score" });
                 }}
                 onLengthChange={(length) =>
-                  this.setState({ score: length - 3 })
+                  this.setState({ score: (length - 3) / 3 })
                 }
               />
             )}
@@ -239,7 +240,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                 (scores.length < MAX_HIGH_SCORES ||
                   scores.filter((s) => s.score < score).length > 0) ? (
                   <Grid container alignItems="stretch" justify="flex-end">
-                    <Grid className="submit" item alignItems="center" xs={6}>
+                    <Grid className="submit" item alignItems="center" xs={8}>
                       <input
                         autoComplete="name"
                         placeholder="Enter your name"
@@ -252,7 +253,7 @@ class Bootstrap extends React.Component<{}, BoostrapState> {
                       justify="center"
                       item
                       xl={3}
-                      xs={6}
+                      xs={4}
                     >
                       {score}
                     </Grid>

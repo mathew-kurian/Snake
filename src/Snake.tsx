@@ -60,6 +60,7 @@ export default class Snake extends React.Component<
     startLength: number;
     onFinish: () => void;
     onLengthChange: (length: number) => void;
+    foodSize: number;
   },
   State
 > {
@@ -135,7 +136,7 @@ export default class Snake extends React.Component<
 
   private computeState_ = () => {
     const { points, direction, food } = this.state;
-    const { rows, columns, onLengthChange, onFinish } = this.props;
+    const { rows, columns, onLengthChange, onFinish, foodSize } = this.props;
 
     const oldHead = points[0];
     // this.gameOver_(oldHead);
@@ -150,7 +151,7 @@ export default class Snake extends React.Component<
 
     if (food.x === newHead.x && food.y === newHead.y) {
       // for Testing
-      for (let i = 1; i < 10; i++) {
+      for (let i = 1; i < foodSize; i++) {
         newPoints.push({
           x: newPoints[i - 1].x + direction[0],
           y: newPoints[i - 1].y + direction[1],
