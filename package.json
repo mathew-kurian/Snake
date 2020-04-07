@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "npx react-scripts start",
-    "build": "npx react-scripts build",
+    "build": "export NODE_ENV=production; npx react-scripts build",
     "test": "npx react-scripts test --env=jsdom",
     "eject": "npx react-scripts eject"
   },
